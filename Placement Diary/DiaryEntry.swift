@@ -20,7 +20,7 @@ final class DiaryEntry {
     var evidence: String
     
     init(date: Date = Date(), obj: String = "", eval: String = "", keyAch: String = "", ref: String = "", plan: String = "", ksb: String = "", evidence: String = "") {
-        self.date = date
+        self.date = date.startOfWeek() ?? date
         self.obj = obj
         self.eval = eval
         self.keyAch = keyAch
@@ -28,5 +28,20 @@ final class DiaryEntry {
         self.plan = plan
         self.ksb = ksb
         self.evidence = evidence
+    }
+}
+
+extension Date {
+    func startOfWeek(using calender: Calendar = Calendar.current) -> Date? {
+        let components = calender.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        return calender.date(from: components)
+    }
+}
+
+extension DiaryEntry {
+    var dateFormatted: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: date)
     }
 }

@@ -16,6 +16,7 @@ struct AddDiaryEntryView: View {
     @State var plan = ""
     @State var ksb = ""
     @State var evidence = ""
+    @Environment(\.modelContext) var modelContext
     
     var body: some View {
         ScrollView {
@@ -79,14 +80,11 @@ struct AddDiaryEntryView: View {
         }
 //        .padding()
     }
-}
-
-func addEntry(obj: String, emot: String, achiev: String, ref: String, plan: String, ksb: String, evid: String) {
     
-    @Environment(\.modelContext) var modelContext
-    let newEntry = DiaryEntry(obj: obj, eval: emot, keyAch: achiev, ref: ref, plan: plan, ksb: ksb, evidence: evid)
-    
-    modelContext.insert(newEntry)
+    func addEntry(obj: String, emot: String, achiev: String, ref: String, plan: String, ksb: String, evid: String) {
+        let newEntry = DiaryEntry(obj: obj, eval: emot, keyAch: achiev, ref: ref, plan: plan, ksb: ksb, evidence: evid)
+        modelContext.insert(newEntry)
+    }
 }
 
 #Preview {

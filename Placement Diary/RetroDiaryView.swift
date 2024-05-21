@@ -23,22 +23,19 @@ struct RetroDiaryView: View {
                 NavigationLink {
                     DiaryEntryView(entry: entry)
                 } label: {
-                    Text(entry.obj)
+                    Text("WC \(entry.dateFormatted)")
                 }
             }
             Button(action: {
                 detailPane = Detail.add
             }, label: {
                 Text("Add Entry")
+                    .padding(.horizontal)
+                    
             })
+            .padding()
+            .buttonStyle(.borderedProminent)
             .navigationTitle("Retro Diary")
-//            .toolbar {
-//                Button(action: {
-//                    detailPane = Detail.add
-//                }, label: {
-//                    Image(systemName: "plus.circle")
-//                })
-//            }
         } detail: {
             if detailPane == Detail.none {
                 Text("Select an entry")
