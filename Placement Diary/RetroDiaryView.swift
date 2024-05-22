@@ -8,40 +8,34 @@
 import SwiftUI
 import SwiftData
 
-enum Detail {
-case add, view, none
-}
-
 struct RetroDiaryView: View {
     @Query var entries: [DiaryEntry]
     @State private var selected: DiaryEntry?
-    @State private var detailPane = Detail.none
+    @State private var showAddEntryView = false
     
     var body: some View {
         NavigationSplitView {
-            List(entries) { entry in
+            List(entries, selection: $selected) { entry in
                 NavigationLink {
                     DiaryEntryView(entry: entry)
                 } label: {
                     Text("WC \(entry.dateFormatted)")
                 }
             }
-            Button(action: {
-                detailPane = Detail.add
-            }, label: {
-                Text("Add Entry")
-                    .padding(.horizontal)
-                    
-            })
+            NavigationLink {
+                AddDiaryEntryView()
+            } label : {
+                ZStack {
+                    RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                        .frame(width: 200, height: 40)
+                    Text("Add Entry")
+                        .foregroundStyle(Color.white)
+                }
+            }
             .padding()
-            .buttonStyle(.borderedProminent)
             .navigationTitle("Retro Diary")
         } detail: {
-            if detailPane == Detail.none {
-                Text("Select an entry")
-            } else if detailPane == Detail.add {
-                AddDiaryEntryView()
-            }
+            Text("Select an entry or add a new one")
         }
     }
 }
